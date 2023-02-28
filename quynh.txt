@@ -1,0 +1,48 @@
+void signIn()
+{
+    int a = 0;
+    printf("\nNhap tai khoan: \n");
+    printf("username: ");
+    scanf("%s%*c", acc.username);
+
+    Node *tmp;
+    for (tmp = root; tmp != NULL; tmp = tmp->next)
+    {
+        if (strcmp(tmp->ele.username, acc.username) == 0)
+        {
+            a = -1;
+            if (tmp->ele.status == 0)
+            {
+                printf("Account blocked\n");
+                return;
+            }
+
+            printf("password: ");
+            scanf("%s%*c", acc.pass);
+
+            if (strcmp(tmp->ele.pass, acc.pass) == 0)
+            {
+                soLanNhapSai = 0;
+                printf("Dang nhap thanh cong\n");
+                printf("---------------------------------");
+                dangnhap =-1;
+                return;
+            }
+
+            printf("Sai mat khau!\n");
+            soLanNhapSai++;
+            if (soLanNhapSai == 3)
+            {
+                printf("Account is blocked\n");
+                tmp->ele.status = 0;
+                saveToFile();
+                return;
+            }
+        }
+    }
+    if (a == 0)
+    {
+        printf("Tai khoan khong ton tai!");
+        return;
+    }
+}
